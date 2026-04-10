@@ -129,7 +129,7 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
                     onChange={(e) => setUserName(e.target.value)}
                      maxLength={15}
                     placeholder="Enter your name"
-                    className="w-full p-3 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6366f1]/30 focus:border-[#6366f1]/30 transition-all"
+                    className="w-full p-3 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all"
                     required
                 />
             </div>
@@ -145,7 +145,7 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
 
                     onChange={handleTextareaChange}
                     placeholder="Write your message here..."
-                    className="w-full p-4 rounded-xl bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#6366f1]/30 focus:border-[#6366f1]/30 transition-all resize-none min-h-[120px]"
+                    className="w-full p-4 rounded-xl bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition-all resize-none min-h-[120px]"
                     required
                 />
             </div>
@@ -154,7 +154,7 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
                 <label className="block text-sm font-medium text-white">
                     Profile Photo <span className="text-gray-400">(optional)</span>
                 </label>
-                <div className="flex items-center gap-4 p-4 bg-white/10 border border-white/20 rounded-xl">
+                <div className="flex items-center gap-4 p-4 bg-white/5 border border-white/10 rounded-xl">
                     {imagePreview ? (
                         <div className="flex items-center gap-4">
                             <img
@@ -381,7 +381,7 @@ const Komentar = () => {
     const totalComments = comments.length + (pinnedComment ? 1 : 0);
 
     return (
-        <div className="w-full bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl transform transition-all duration-500 hover:shadow-[#6366f1]/10" data-aos="fade-up" data-aos-duration="1000">
+        <div className="w-full bg-gradient-to-b from-white/10 to-white/5 rounded-2xl  backdrop-blur-xl shadow-xl" data-aos="fade-up" data-aos-duration="1000">
             <div className="p-6 border-b border-white/10" data-aos="fade-down" data-aos-duration="800">
                 <div className="flex items-center gap-3">
                     <div className="p-2 rounded-xl bg-indigo-500/20">
