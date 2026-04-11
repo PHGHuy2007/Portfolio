@@ -287,13 +287,13 @@ const Komentar = () => {
         // Set up real-time subscription
         const subscription = supabase
             .channel('portfolio_comments')
-            .on('postgres_changes', 
-                { 
-                    event: '*', 
-                    schema: 'public', 
+            .on('postgres_changes',
+                {
+                    event: '*',
+                    schema: 'public',
                     table: 'portfolio_comments',
                     filter: 'is_pinned=eq.false'
-                }, 
+                },
                 () => {
                     fetchComments(); // Refresh comments when changes occur
                 }
@@ -301,31 +301,40 @@ const Komentar = () => {
             .subscribe();
 
         return () => {
-            subscription.unsubscribe();
+            supabase.removeChannel(subscription);
         };
     }, []);
 
-    const uploadImage = useCallback(async (imageFile) => {
-        if (!imageFile) return null;
-        
-        const fileExt = imageFile.name.split('.').pop();
-        const fileName = `${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
-        const filePath = `profile-images/${fileName}`;
+const uploadImage = useCallback(async (imageFile) => {
+    if (!imageFile) return null;
+    
+    const fileExt = imageFile.name.split('.').pop();
+    // Tạo tên file an toàn, duy nhất
+    const fileName = `${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
+    
+    // Đặt tên bucket bạn muốn dùng ở đây
+    // LƯU Ý: Nếu dùng 'profile-images', bạn phải chắc chắn đã tạo bucket này và bật Public trên Supabase.
+    // Nếu chưa tạo, hãy đổi thành 'project-images' (bucket bạn đang có sẵn).
+    const BUCKET_NAME = 'project-images';
 
-        const { error: uploadError } = await supabase.storage
-            .from('profile-images')
-            .upload(filePath, imageFile);
+    // XÓA bỏ dòng khai báo filePath lặp lại
+    // Truyền trực tiếp fileName vào các hàm của Supabase
 
-        if (uploadError) {
-            throw uploadError;
-        }
+    const { error: uploadError } = await supabase.storage
+        .from(BUCKET_NAME)
+        .upload(fileName, imageFile);
 
-        const { data } = supabase.storage
-            .from('profile-images')
-            .getPublicUrl(filePath);
+    if (uploadError) {
+        console.error("Lỗi khi upload ảnh:", uploadError);
+        throw uploadError;
+    }
 
-        return data.publicUrl;
-    }, []);
+    const { data } = supabase.storage
+        .from(BUCKET_NAME)
+        .getPublicUrl(fileName);
+
+    return data.publicUrl;
+}, []);
 
     const handleCommentSubmit = useCallback(async ({ newComment, userName, imageFile }) => {
         setError('');
@@ -404,7 +413,7 @@ const Komentar = () => {
                     <CommentForm onSubmit={handleCommentSubmit} isSubmitting={isSubmitting} error={error} />
                 </div>
 
-                <div className="space-y-4 h-[328px] overflow-y-auto overflow-x-hidden custom-scrollbar pt-1 pr-1 " data-aos="fade-up" data-aos-delay="200">
+                <div className="space-y-4 h-[415px] overflow-y-auto overflow-x-hidden custom-scrollbar pt-1 pr-1 " data-aos="fade-up" data-aos-delay="200">
                     {/* Pinned Comment */}
                     {pinnedComment && (
                         <div data-aos="fade-down" data-aos-duration="800">
@@ -436,7 +445,7 @@ const Komentar = () => {
                     )}
                 </div>
             </div>
-            <style jsx>{`
+            <style>{`
                 .custom-scrollbar::-webkit-scrollbar {
                     width: 6px;
                 }

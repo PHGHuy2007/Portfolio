@@ -60,12 +60,12 @@ function App() {
   const [showWelcome, setShowWelcome] = useState(true);
 
   return (
-    
+
     <HelmetProvider>
       <div className="pointer-events-none">
   <AnimatedBackground />
 </div>
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
           {/* PUBLIC */}
           <Route
