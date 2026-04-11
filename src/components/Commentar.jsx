@@ -227,7 +227,7 @@ const CommentForm = memo(({ onSubmit, isSubmitting, error }) => {
 
 const Komentar = () => {
     const [comments, setComments] = useState([]);
-    const [pinnedComment, setPinnedComment] = useState(null);
+    const [pinnedComments, setPinnedComments] = useState([]);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState('');
 
@@ -239,30 +239,30 @@ const Komentar = () => {
         });
     }, []);
 
-    // Fetch pinned comment
+    // Fetch pinned comments
     useEffect(() => {
-        const fetchPinnedComment = async () => {
+        const fetchPinnedComments = async () => {
             try {
                 const { data, error } = await supabase
                     .from('portfolio_comments')
                     .select('*')
                     .eq('is_pinned', true)
-                    .single();
-                
-                if (error && error.code !== 'PGRST116') {
-                    console.error('Error fetching pinned comment:', error);
+                    .order('created_at', { ascending: false });
+
+                if (error) {
+                    console.error('Error fetching pinned comments:', error);
                     return;
                 }
-                
+
                 if (data) {
-                    setPinnedComment(data);
+                    setPinnedComments(data);
                 }
             } catch (error) {
-                console.error('Error fetching pinned comment:', error);
+                console.error('Error fetching pinned comments:', error);
             }
         };
 
-        fetchPinnedComment();
+        fetchPinnedComments();
     }, []);
 
     // Fetch regular comments (excluding pinned) and set up real-time subscription
@@ -387,7 +387,7 @@ const uploadImage = useCallback(async (imageFile) => {
     }, []);
 
     // Calculate total comments (pinned + regular)
-    const totalComments = comments.length + (pinnedComment ? 1 : 0);
+    const totalComments = comments.length + pinnedComments.length;
 
     return (
         <div className="w-full bg-gradient-to-b from-white/10 to-white/5 rounded-2xl  backdrop-blur-xl shadow-xl" data-aos="fade-up" data-aos-duration="1000">
@@ -414,31 +414,31 @@ const uploadImage = useCallback(async (imageFile) => {
                 </div>
 
                 <div className="space-y-4 h-[415px] overflow-y-auto overflow-x-hidden custom-scrollbar pt-1 pr-1 " data-aos="fade-up" data-aos-delay="200">
-                    {/* Pinned Comment */}
-                    {pinnedComment && (
-                        <div data-aos="fade-down" data-aos-duration="800">
-                            <Comment 
-                                comment={pinnedComment} 
+                    {/* Pinned Comments */}
+                    {pinnedComments.map((pinnedComment, pinnedIndex) => (
+                        <div key={pinnedComment.id} data-aos="fade-down" data-aos-duration="800">
+                            <Comment
+                                comment={pinnedComment}
                                 formatDate={formatDate}
-                                index={0}
+                                index={pinnedIndex}
                                 isPinned={true}
                             />
                         </div>
-                    )}
-                    
+                    ))}
+
                     {/* Regular Comments */}
-                    {comments.length === 0 && !pinnedComment ? (
+                    {comments.length === 0 && pinnedComments.length === 0 ? (
                         <div className="text-center py-8" data-aos="fade-in">
                             <UserCircle2 className="w-12 h-12 text-indigo-400 mx-auto mb-3 opacity-50" />
                             <p className="text-gray-400">No comments yet. Start the conversation!</p>
                         </div>
                     ) : (
                         comments.map((comment, index) => (
-                            <Comment 
-                                key={comment.id} 
-                                comment={comment} 
+                            <Comment
+                                key={comment.id}
+                                comment={comment}
                                 formatDate={formatDate}
-                                index={index + (pinnedComment ? 1 : 0)}
+                                index={index + pinnedComments.length}
                                 isPinned={false}
                             />
                         ))
