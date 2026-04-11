@@ -86,13 +86,13 @@ const SocialLink = memo(({ icon: Icon, link, label }) => (
 const TYPING_SPEED = 100;
 const ERASING_SPEED = 50;
 const PAUSE_DURATION = 2000;
-const WORDS = ["Network & Telecom Student", "Tech Enthusiast"];
+const WORDS = ["Photographer", "Coders", "Creators", "Editor", "Designer"];
 const TECH_STACK = ["React", "Javascript", "Node.js", "Tailwind"];
 const SOCIAL_LINKS = [
-  { icon: Github, link: "https://github.com/PHGHuy", label: "GitHub Profile" },
-  { icon: Facebook, link: "https://facebook.com/phghuy", label: "Facebook Profile" },
-  { icon: "discord", link: "https://discord.com/users/YOUR_DISCORD_ID", label: "Discord Profile" },
-  { icon: Instagram, link: "https://www.instagram.com/phghuy_photographer/", label: "Instagram Profile" }
+  { icon: Github, link: "https://github.com/PHGHuy2007", label: "GitHub Profile" },
+  { icon: Facebook, link: "https://www.facebook.com/GiaHuyPH", label: "Facebook Profile" },
+  { icon: "discord", link: "https://discord.com/users/547053907440959499", label: "Discord Profile" },
+  { icon: Camera, link: "https://phghuy.studio", label: "Studio" }
 ];
 
 const Home = () => {
@@ -199,7 +199,7 @@ const Home = () => {
                   <p className="text-base md:text-lg text-gray-400 max-w-xl leading-relaxed font-light"
                     data-aos="fade-up"
                     data-aos-delay="1000">
-                    Menciptakan Website Yang Inovatif, Fungsional, dan User-Friendly untuk Solusi Digital.
+                    Welcome to My personal website. 👋🏼
                   </p>
 
                   {/* Tech Stack */}
@@ -213,7 +213,6 @@ const Home = () => {
                   <div className="flex flex-row gap-3 w-full justify-start" data-aos="fade-up" data-aos-delay="1400">
                     <CTAButton href="#Portofolio" text="Projects" icon={ExternalLink} />
                     <CTAButton href="#Contact" text="Contact" icon={Mail} />
-                    <CTAButton href="https://phghuy.studio" text="Studio" icon={Camera} external={true} />
                   </div>
 
                   {/* Social Links */}
