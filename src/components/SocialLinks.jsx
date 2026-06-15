@@ -57,7 +57,7 @@ const socialLinks = [
     displayName: "Facebook",
     subText: "Phan Hoàng Gia Huy",
     icon: Facebook,
-    url: "https://facebook.com/phghuy",
+    url: "https://www.facebook.com/GiaHuyPH/",
     color: "#1877F2",
     gradient: "from-[#1877F2] to-[#0B6BDE]",
   },
